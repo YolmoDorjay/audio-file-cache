@@ -38,30 +38,30 @@ const AudioPlayer = ({ sourceLink }: { sourceLink: string }) => {
     };
   }, [audioUrl]);
 
-  // useEffect(() => {
-  //   const fetchAndCacheAudio = async () => {
-  //     try {
-  //       const cachedAudio: any = await localforage.getItem(audioKey);
-  //       if (cachedAudio) {
-  //         const audioBlobUrl = URL.createObjectURL(cachedAudio);
-  //         setAudioUrl(audioBlobUrl);
-  //         console.log("Audio received from cached");
-  //       } else {
-  //         const response = await fetch(sourceLink);
-  //         const audioBlob = await response.blob();
-  //         await localforage.setItem(audioKey, audioBlob);
+  useEffect(() => {
+    const fetchAndCacheAudio = async () => {
+      try {
+        const cachedAudio: any = await localforage.getItem(audioKey);
+        if (cachedAudio) {
+          const audioBlobUrl = URL.createObjectURL(cachedAudio);
+          setAudioUrl(audioBlobUrl);
+          console.log("Audio received from cached");
+        } else {
+          const response = await fetch(sourceLink);
+          const audioBlob = await response.blob();
+          await localforage.setItem(audioKey, audioBlob);
 
-  //         const audioBlobUrl = URL.createObjectURL(audioBlob);
-  //         setAudioUrl(audioBlobUrl);
-  //         console.log("Audio received from API");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching or caching audio:", error);
-  //     }
-  //   };
+          const audioBlobUrl = URL.createObjectURL(audioBlob);
+          setAudioUrl(audioBlobUrl);
+          console.log("Audio received from API");
+        }
+      } catch (error) {
+        console.error("Error fetching or caching audio:", error);
+      }
+    };
 
-  //   fetchAndCacheAudio();
-  // }, []);
+    fetchAndCacheAudio();
+  }, []);
 
   const audioReadyHandler = () => {
     setAudioCurrentTime(audioRef.current?.currentTime!);
@@ -91,7 +91,7 @@ const AudioPlayer = ({ sourceLink }: { sourceLink: string }) => {
       <div>
         <audio
           ref={audioRef}
-          src={sourceLink}
+          src={audioUrl}
           preload="metadata"
           onLoadedMetadata={audioReadyHandler}
           onTimeUpdate={audioTimeUpdateHandler}
