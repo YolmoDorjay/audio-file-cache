@@ -25,7 +25,7 @@ export default function Home() {
           {showAudioDrawer && (
             <AudioPlayer
               sourceLink={
-                "https://onlinetestcase.com/wp-content/uploads/2023/06/2-MB-MP3.mp3"
+                "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
               }
             />
           )}
